@@ -1,72 +1,32 @@
-<!--
-title: 'AWS NodeJS Example'
-description: 'This template demonstrates how to deploy a NodeJS function running on AWS Lambda using the traditional Serverless Framework.'
-layout: Doc
-framework: v3
-platform: AWS
-language: nodeJS
-priority: 1
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
-
-
-# Serverless Framework AWS NodeJS Example
-
-This template demonstrates how to deploy a NodeJS function running on AWS Lambda using the traditional Serverless Framework. The deployed function does not include any event definitions as well as any kind of persistence (database). For more advanced configurations check out the [examples repo](https://github.com/serverless/examples/) which includes integrations with SQS, DynamoDB or examples of functions that are triggered in `cron`-like manner. For details about configuration of specific `events`, please refer to our [documentation](https://www.serverless.com/framework/docs/providers/aws/events/).
-
-## Usage
-
-### Deployment
-
-In order to deploy the example, you need to run the following command:
-
-```
-$ serverless deploy
-```
-
-After running deploy, you should see output similar to:
-
+### New project
 ```bash
-Deploying aws-node-project to stage dev (us-east-1)
+# Create one with 
+serverless
+# or  
+serverless create --path hola-mundo --template-url https://github.com/platzi/serverless-framework/tree/main/hola-mundo
 
-✔ Service deployed to stack aws-node-project-dev (112s)
+sls deploy
+sls deploy function -f <FUNCTION_NAME>
+sls invoke -f <FUNCTION_NAME>
 
-functions:
-  hello: aws-node-project-dev-hello (1.5 kB)
+# Remove
+sls remove
 ```
 
-### Invocation
-
-After successful deployment, you can invoke the deployed function by using the following command:
-
+### Local Deploy
 ```bash
-serverless invoke --function hello
+npm install serverless-offline --save-dev
+# or 
+serverless plugin install -n serverless-offline
+sls offline start 
+sls invoke local -f <FUNCTION_NAME>
 ```
 
-Which should result in response similar to the following:
-
-```json
-{
-    "statusCode": 200,
-    "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": {}\n}"
-}
-```
-
-### Local development
-
-You can invoke your function locally by using the following command:
-
-```bash
-serverless invoke local --function hello
-```
-
-Which should result in response similar to the following:
-
-```
-{
-    "statusCode": 200,
-    "body": "{\n  \"message\": \"Go Serverless v3.0! Your function executed successfully!\",\n  \"input\": \"\"\n}"
-}
-```
+## Permissions for user in AWS
+- https://gist.github.com/ServerlessBot/7618156b8671840a539f405dea2704c8
+- AmazonAPIGatewayAdministrator
+- AmazonS3FullAccess
+- AWSCloudFormationFullAccess
+- AWSLambda_FullAccess
+- CloudWatchLogsFullAccess
+- IAMFullAccess
