@@ -10,7 +10,7 @@ functions:
     handler: handler.index  # file.function
     events:
       - http:
-          path: hello
+          path: /hello
           method: GET
 
 plugins:
