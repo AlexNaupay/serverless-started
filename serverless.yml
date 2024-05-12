@@ -7,7 +7,11 @@ provider:
 
 functions:
   hello:
-    handler: handler.index
+    handler: handler.index  # file.function
+    events:
+      - http:
+          path: hello
+          method: GET
 
 plugins:
   - serverless-offline
