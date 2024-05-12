@@ -22,6 +22,11 @@ sls offline start
 sls invoke local -f <FUNCTION_NAME>
 ```
 
+### Install AWS-Cli before
+```bash
+aws configure
+```
+
 #### Permissions for user in AWS
 - https://gist.github.com/ServerlessBot/7618156b8671840a539f405dea2704c8
 - AmazonAPIGatewayAdministrator
