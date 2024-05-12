@@ -1,9 +1,9 @@
-module.exports.handler = async (event) => {
+const index = async (event) => {
   return {
     statusCode: 200,
     body: JSON.stringify(
       {
-        message: 'Go Serverless v3.0! Your function executed successfully!',
+        message: 'Hello from index',
         input: event,
       },
       null,
@@ -11,3 +11,7 @@ module.exports.handler = async (event) => {
     ),
   };
 };
+
+module.exports = {
+    index
+}

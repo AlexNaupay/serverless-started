@@ -22,7 +22,7 @@ sls offline start
 sls invoke local -f <FUNCTION_NAME>
 ```
 
-## Permissions for user in AWS
+#### Permissions for user in AWS
 - https://gist.github.com/ServerlessBot/7618156b8671840a539f405dea2704c8
 - AmazonAPIGatewayAdministrator
 - AmazonS3FullAccess
@@ -30,3 +30,8 @@ sls invoke local -f <FUNCTION_NAME>
 - AWSLambda_FullAccess
 - CloudWatchLogsFullAccess
 - IAMFullAccess
+
+## Resources
+https://www.serverless.com/framework/docs/providers/aws/guide/intro
+https://github.com/serverless/tutorial/tree/main/getting-started
+https://github.com/dherault/serverless-offline
