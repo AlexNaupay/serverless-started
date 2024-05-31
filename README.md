@@ -22,6 +22,19 @@ sls offline start
 sls invoke local -f <FUNCTION_NAME>
 ```
 
+### Dynamodb local
+```bash
+https://www.npmjs.com/package/serverless-dynamodb
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html
+
+npm install serverless-dynamodb
+serverless dynamodb install  # download dynamodb-local aws
+
+serverless offline start  # autostart
+serverless dynamodb start  # only dynamo
+aws dynamodb list-tables --endpoint-url http://localhost:8000
+```
+
 ### Install AWS-Cli before
 ```bash
 aws configure

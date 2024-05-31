@@ -13,5 +13,39 @@ functions:
           path: /hello
           method: GET
 
+  get-users:
+    handler: handler.getUsers  # file.function
+    events:
+      - http:
+          path: /get-users
+          method: GET
+
 plugins:
+  - serverless-dynamodb
   - serverless-offline
+
+custom:
+  serverless-dynamodb:
+    # If you only want to use DynamoDB Local in some stages, declare them here
+    stages:
+      - dev
+    start:
+      port: 8000
+      docker: false
+      migrate: true
+
+resources:
+  Resources:
+    usersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: usersTable
+        AttributeDefinitions:
+          - AttributeName: pk
+            AttributeType: S
+        KeySchema:
+          - AttributeName: pk
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
