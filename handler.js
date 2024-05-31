@@ -1,11 +1,17 @@
 const AWS = require('aws-sdk');
-const dynamodb = new AWS.DynamoDB.DocumentClient({
-        region: 'local',
-        endpoint: 'http://127.0.0.1:8000',
-        accessKeyId: 'MockAccessKeyId',
-        secretAccessKey: 'MockSecretAccessKey',
-    });
 
+let dynamoDBClientParams = {}
+
+if (process.env.IS_OFFLINE) {
+    dynamoDBClientParams =  {
+        region: 'localhost',
+        endpoint: 'http://localhost:8000',
+        accessKeyId: 'MockAccessKey',  // needed if you don't have aws credentials at all in env
+        secretAccessKey: 'MockSecretKey' // needed if you don't have aws credentials at all in env
+    }
+}
+
+const dynamodb = new AWS.DynamoDB.DocumentClient(dynamoDBClientParams)
 
 const index = async (event, context) => {
     let response = {
@@ -22,8 +28,10 @@ const index = async (event, context) => {
 
 const getUsers = async (event, context) => {
 
+    let userId = event.pathParameters.id
+
     let params = {
-        ExpressionAttributeValues: { ':pk': '1' },  // pk=1
+        ExpressionAttributeValues: { ':pk': userId },  // pk=1
         KeyConditionExpression: 'pk = :pk',
         TableName: 'usersTable'
     };

@@ -3,7 +3,14 @@ frameworkVersion: '3'
 
 provider:
   name: aws
-  runtime: nodejs18.x
+  runtime: nodejs20.x
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action: "dynamodb:*"
+          Resource: { "Fn::GetAtt": [ "usersTable", "Arn" ] }  # Better
+          #Resource: arn:aws:dynamodb:us-east-1:471893938953:table/usersTable
 
 functions:
   hello:
@@ -17,7 +24,7 @@ functions:
     handler: handler.getUsers  # file.function
     events:
       - http:
-          path: /get-users
+          path: /get-users/{id}
           method: GET
 
 plugins:
