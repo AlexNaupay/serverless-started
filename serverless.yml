@@ -20,11 +20,17 @@ functions:
           path: /hello
           method: GET
 
+  get-user:
+    handler: handler.getUser  # file.function
+    events:
+      - http:
+          path: /users/{id}
+          method: GET
   get-users:
     handler: handler.getUsers  # file.function
     events:
       - http:
-          path: /get-users/{id}
+          path: /users
           method: GET
 
 plugins:

@@ -13,6 +13,12 @@ if (process.env.IS_OFFLINE) {
 
 const dynamodb = new AWS.DynamoDB.DocumentClient(dynamoDBClientParams)
 
+/*var params = {
+    TableName: 'usersTable',
+    Item: {pk:'2', name:'Kimberly'}
+};
+dynamodb.put(params).promise().then(console.info)*/
+
 const index = async (event, context) => {
     let response = {
         message: 'Hello from index',
@@ -26,7 +32,7 @@ const index = async (event, context) => {
     }
 };
 
-const getUsers = async (event, context) => {
+const getUser = async (event, context) => {
 
     let userId = event.pathParameters.id
 
@@ -41,7 +47,23 @@ const getUsers = async (event, context) => {
             console.info(response);
             return {
                 statusCode: 200,
-                body: JSON.stringify({user: response})
+                body: JSON.stringify({user: response.Items[0]})
+            }
+        })
+};
+
+const getUsers = async (event, context) => {
+    let params = {
+        TableName: 'usersTable'
+    };
+
+    // Use scan
+    return dynamodb.scan(params).promise()
+        .then((response) => {
+            console.info(response);
+            return {
+                statusCode: 200,
+                body: JSON.stringify({user: response.Items})
             }
         })
 };
@@ -49,5 +71,6 @@ const getUsers = async (event, context) => {
 
 module.exports = {
     index,
+    getUser,
     getUsers,
 }
