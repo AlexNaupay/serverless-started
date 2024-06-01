@@ -20,25 +20,25 @@ provider:
 
 functions:
   hello:
-    handler: users/get.index  # file.function
+    handler: users-get/handler.index  # file.function
     events:
       - http:
           path: /hello
           method: GET
   get-user:
-    handler: users/get.getUser  # file.function
+    handler: users-get/handler.getUser  # file.function
     events:
       - http:
           path: /users/{id}
           method: GET
   get-users:
-    handler: users/get.getUsers  # file.function
+    handler: users-get/handler.getUsers  # file.function
     events:
       - http:
           path: /users
           method: GET
   create-user:
-    handler: users/create.store  # file.function
+    handler: users-create/handler.store  # file.function
     events:
       - http:
           path: /users
