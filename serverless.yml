@@ -14,23 +14,29 @@ provider:
 
 functions:
   hello:
-    handler: handler.index  # file.function
+    handler: users/get.index  # file.function
     events:
       - http:
           path: /hello
           method: GET
   get-user:
-    handler: handler.getUser  # file.function
+    handler: users/get.getUser  # file.function
     events:
       - http:
           path: /users/{id}
           method: GET
   get-users:
-    handler: handler.getUsers  # file.function
+    handler: users/get.getUsers  # file.function
     events:
       - http:
           path: /users
           method: GET
+  create-user:
+    handler: users/create.store  # file.function
+    events:
+      - http:
+          path: /users
+          method: POST
 
 plugins:
   - serverless-dynamodb
