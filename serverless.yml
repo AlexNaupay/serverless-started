@@ -37,12 +37,18 @@ functions:
       - http:
           path: /users
           method: GET
-  create-user:
+  store-user:
     handler: users-create/handler.store  # file.function
     events:
       - http:
           path: /users
           method: POST
+  update-user:
+    handler: users-update/handler.update  # file.function
+    events:
+      - http:
+          path: /users/{id}
+          method: PUT
 
 plugins:
   - serverless-dynamodb
