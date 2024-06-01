@@ -49,6 +49,15 @@ functions:
       - http:
           path: /users/{id}
           method: PUT
+  delete-user:
+    handler: users-delete/handler.delete  # file.function
+    runtime: python3.10
+    #environment:
+    #    VIRTUAL_ENV_PATH: .venv
+    events:
+      - http:
+          path: /users/{id}
+          method: DELETE
 
 plugins:
   - serverless-dynamodb
