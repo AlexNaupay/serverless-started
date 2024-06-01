@@ -1,6 +1,12 @@
 service: serverless-started-service
 frameworkVersion: '3'
 
+package:
+  individually: true
+  patterns:
+    - "!.dynamodb"
+    - "!node_modules"
+
 provider:
   name: aws
   runtime: nodejs20.x
