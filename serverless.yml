@@ -4,10 +4,11 @@ frameworkVersion: '3'
 package:
   individually: true
   patterns:
-    - "!.dynamodb"
-    - "!node_modules"
-    - "!.venv"
-    - "!.github"
+    - "!*/**"  # Exclude all!
+    #- "!.dynamodb"
+    #- "!node_modules"
+    #- "!.venv"
+    #- "!.github"
 
 provider:
   name: aws
@@ -23,36 +24,54 @@ provider:
 functions:
   hello:
     handler: users-get/handler.index  # file.function
+    package:
+      patterns:
+        - "users-get/handler.js"
     events:
       - http:
           path: /hello
           method: GET
   get-user:
     handler: users-get/handler.getUser  # file.function
+    package:
+      patterns:
+        - "users-get/handler.js"
     events:
       - http:
           path: /users/{id}
           method: GET
   get-users:
     handler: users-get/handler.getUsers  # file.function
+    package:
+      patterns:
+        - "users-get/handler.js"
     events:
       - http:
           path: /users
           method: GET
   store-user:
     handler: users-create/handler.store  # file.function
+    package:
+      patterns:
+        - "users-create/handler.js"
     events:
       - http:
           path: /users
           method: POST
   update-user:
     handler: users-update/handler.update  # file.function
+    package:
+      patterns:
+        - "users-update/handler.js"
     events:
       - http:
           path: /users/{id}
           method: PUT
   delete-user:
     handler: users-delete/handler.delete  # file.function
+    package:
+      patterns:
+        - "users-delete/handler.py"
     runtime: python3.10
     #environment:
     #    VIRTUAL_ENV_PATH: .venv
