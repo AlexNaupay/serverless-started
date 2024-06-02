@@ -18,9 +18,23 @@ provider:
     role:
       statements:
         - Effect: Allow
-          Action: "dynamodb:*"
-          Resource: { "Fn::GetAtt": [ "usersTable", "Arn" ] }  # Better
+          #Action: "dynamodb:*"
+          #Resource: { "Fn::GetAtt": [ "usersTable", "Arn" ] }  # Better
           #Resource: arn:aws:dynamodb:us-east-1:471893938953:table/usersTable
+          Action:
+            - 'dynamodb:Scan'
+            - 'dynamodb:Query'
+            - 'dynamodb:GetItem'
+            - 'dynamodb:PutItem'
+            - 'dynamodb:UpdateItem'
+            - 'dynamodb:DeleteItem'
+          Resource: { "Fn::GetAtt": [ "usersTable", "Arn" ] }
+        - Effect: Allow
+          Action:
+            - 's3:GetObject'
+            - 's3:PutObject'
+            - 's3:PutBucketPolicy'
+          Resource: { "Fn::GetAtt": [ "MyS3Bucket", "Arn" ] }
 
 functions:
   hello:
@@ -128,3 +142,30 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+    MyS3Bucket:
+      Type: 'AWS::S3::Bucket'
+      Properties:
+        BucketName: bucket-serverless-started-course-1991
+        # AccessControl: PublicRead
+        PublicAccessBlockConfiguration:
+          BlockPublicAcls: false
+          BlockPublicPolicy: false
+          IgnorePublicAcls: false
+          RestrictPublicBuckets: false
+    S3BucketPolicy:
+      Type: 'AWS::S3::BucketPolicy'
+      Properties:
+        Bucket:
+          Ref: 'MyS3Bucket'
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal: '*'
+              Action: 's3:GetObject'
+              Resource:
+                Fn::Join:
+                  - ''
+                  - - 'arn:aws:s3:::'
+                    - Ref: 'MyS3Bucket'
+                    - '/*'

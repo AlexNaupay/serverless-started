@@ -1,6 +1,5 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "$id": "https://devlabs.com/user.schema.json",
   "title": "User",
   "description": "A user from my app",
   "type": "object",
