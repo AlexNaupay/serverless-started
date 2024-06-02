@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "$id": "https://devlabs.com/user.schema.json",
+  "title": "User",
+  "description": "A user from my app",
+  "type": "object",
+  "properties": {
+    "name": {
+      "description": "Name",
+      "type": "string"
+    },
+    "phone": {
+      "description": "Phone number",
+      "type": "string",
+      "format": "phone"
+    },
+    "age": {
+      "description": "How old is the user",
+      "type": "number",
+      "exclusiveMinimum": false,
+      "minimum": 18,
+      "maximum": 150
+    }
+  },
+  "required": [
+    "name",
+    "age"
+  ]
+}

@@ -17,6 +17,14 @@ const dynamodb = new AWS.DynamoDB.DocumentClient(dynamoDBClientParams)
 const store = async (event, context) => {
     // console.info(event.body, typeof event.body)
 
+    const contentType = event.headers['Content-Type'];
+    if (contentType.toLowerCase() !== 'application/json') {
+        return {
+            statusCode: 415,  // Unsupported Media Type
+            body: JSON.stringify({ message: 'Unsupported content type. Please use application/json.' })
+        };
+    }
+
     const body = JSON.parse(event.body)
 
     const uuid = randomUUID()
