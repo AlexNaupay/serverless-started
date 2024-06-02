@@ -1,5 +1,5 @@
 const AWS = require('aws-sdk');
-
+const date = new Date();
 let dynamoDBClientParams = {}
 
 if (process.env.IS_OFFLINE) {
@@ -20,7 +20,7 @@ dynamodb.put(params).promise().then(console.info)
 
 const index = async (event, context) => {
     let response = {
-        message: 'Hello from index',
+        message: `Hello from index. ${date.toISOString()}`,
         // input: event,
         // context: context
     }
