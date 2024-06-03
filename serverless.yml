@@ -35,6 +35,16 @@ provider:
             - 's3:PutObject'
             - 's3:PutBucketPolicy'
           Resource: { "Fn::GetAtt": [ "MyS3Bucket", "Arn" ] }
+        - Effect: Allow
+          Action: 's3:*'
+          Resource:
+            Fn::Join:
+              - ''
+              - - 'arn:aws:s3:::'
+                - Ref: 'MyS3Bucket'
+                - '/*'
+  environment:
+    BUCKET_NAME: !Ref MyS3Bucket
 
 functions:
   hello:
@@ -112,6 +122,19 @@ functions:
             parameters:
               paths:
                 id: true
+  sign-url:
+    handler: sign-url/handler.signS3Url  # file.function
+    package:
+      patterns:
+        - "sign-url/handler.js"
+    events:
+      - http:
+          path: /sign-url
+          method: GET
+          request:
+            parameters:
+              querystrings:
+                filename: true
 
 plugins:
   - serverless-dynamodb
