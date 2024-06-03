@@ -16,6 +16,9 @@ provider:
   name: aws
   runtime: nodejs16.x
   # region: us-west-2  # default us-west-1
+  apiGateway:
+    apiKeys:
+      - SERVERLESS_STARTED_API_KEY  # Use with x-api-key Header
   iam:
     role:
       statements:
@@ -66,6 +69,7 @@ functions:
     events:
       - http:
           path: /users/{id}
+          private: true
           method: GET
           request:
             parameters:
