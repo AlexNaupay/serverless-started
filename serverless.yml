@@ -6,6 +6,7 @@ package:
   patterns:
     - "!*/**"  # Exclude all!
     - "!**"  # Exclude all!
+    - "!*.zip"
     #- "!.dynamodb"
     #- "!node_modules"
     #- "!.venv"
@@ -14,6 +15,7 @@ package:
 provider:
   name: aws
   runtime: nodejs16.x
+  # region: us-west-2  # default us-west-1
   iam:
     role:
       statements:
@@ -137,10 +139,11 @@ functions:
                 filename: true
   thumbGenerator:
     handler: thumbnail/handler.thumbnailGenerator
+    layers:
+      - { Ref: BaseLambdaLayer }
     package:
       patterns:
         - "thumbnail/handler.js"
-        - "node_modules/**"
     events:
       - s3:
           bucket: !Ref MyS3Bucket
@@ -161,6 +164,14 @@ custom:
       port: 8000
       docker: false
       migrate: true
+
+layers:
+  base:
+    name: "prd-dependencies"
+    compatibleRuntimes:
+      - nodejs16.x
+    package:
+      artifact: nodejs.zip
 
 resources:
   Resources:
