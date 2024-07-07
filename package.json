@@ -1,8 +1,8 @@
 {
   "devDependencies": {
-    "aws-sdk": "^2.1631.0",
+    "aws-sdk": "^2.1655.0",
     "serverless-dynamodb": "^0.2.53",
-    "serverless-offline": "^13.5.0"
+    "serverless-offline": "^13.6.0"
   },
   "dependencies": {
     "sharp": "^0.33.4"

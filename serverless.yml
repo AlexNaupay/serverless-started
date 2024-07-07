@@ -50,8 +50,15 @@ provider:
                 - '/*'
   environment:
     BUCKET_NAME: !Ref MyS3Bucket
+    #SECRET_EGG: ${ssm:/SECRET_EGG}  # From system manager > parameter store
+    SECRET_EGG: a-secret-egg
 
 functions:
+  my-authorizer:
+    handler: authorizer/handler.index  # file.function
+    package:
+      patterns:
+        - "authorizer/handler.js"
   hello:
     handler: users-get/handler.index  # file.function
     package:
@@ -69,7 +76,7 @@ functions:
     events:
       - http:
           path: /users/{id}
-          private: true
+          private: true  # With API key
           method: GET
           request:
             parameters:
@@ -84,6 +91,11 @@ functions:
       - http:
           path: /users
           method: GET
+          authorizer:
+            name: my-authorizer
+            resultTtlInSeconds: 30  # Cache
+            type: token
+            identitySource: method.request.header.Authorization
   store-user:
     handler: users-create/handler.store  # file.function
     package:
@@ -168,6 +180,8 @@ custom:
       port: 8000
       docker: false
       migrate: true
+  serverless-offline:
+    apiKey: crud-serverless-users-apikey
 
 layers:
   base:
