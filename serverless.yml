@@ -170,7 +170,8 @@ functions:
 plugins:
   - serverless-dynamodb
   - serverless-offline
-
+  - serverless-apigateway-service-proxy
+  - serverless-lift
 custom:
   serverless-dynamodb:
     # If you only want to use DynamoDB Local in some stages, declare them here
@@ -182,6 +183,23 @@ custom:
       migrate: true
   serverless-offline:
     apiKey: crud-serverless-users-apikey
+  apiGatewayServiceProxies:
+    - sqs:
+        path: /like-user
+        method: post
+        queueName: likes-queue
+        cors: true
+        response:
+          template:
+            # `success` is used when the integration response is 200
+            success: |-
+              { "message": "accepted" }
+            # `clientError` is used when the integration response is 400
+            clientError: |-
+              { "message": "there is an error in your request" }
+            # `serverError` is used when the integration response is 500
+            serverError: |-
+              { "message": "there was an error handling your request" }
 
 layers:
   base:
@@ -190,7 +208,21 @@ layers:
       - nodejs16.x
     package:
       artifact: nodejs.zip
-
+constructs:
+  my-queue:
+    type: queue
+    batchSize: 1
+    worker:
+      handler: like-user/handler.index
+      reservedConcurrency: 1
+      package:
+        patterns:
+          - "like-user/handler.js"
+    # sls logs --function my-queueWorker
+    extensions:
+      queue:
+        Properties:
+          QueueName: likes-queue
 resources:
   Resources:
     usersTable:
