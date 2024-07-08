@@ -4,8 +4,9 @@ const index = async (event, context) => {
     let hour = date.getHours()
 
     console.log(`${hour}:${minutes}`)
+    const clientToken = event.authorizationToken || event.headers.Authorization
 
-    if (event.headers['Authorization'] === `Bearer ${process.env.SECRET_EGG}-${hour}-${minutes}`) {
+    if (clientToken === `Bearer ${process.env.SECRET_EGG}-${hour}-${minutes}`) {
         return {
             principalId: 'anonymous',
             policyDocument: {

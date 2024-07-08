@@ -214,7 +214,7 @@ constructs:
     batchSize: 1
     worker:
       handler: like-user/handler.index
-      reservedConcurrency: 1
+#      reservedConcurrency: 1
       package:
         patterns:
           - "like-user/handler.js"
